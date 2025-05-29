@@ -1,6 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message
 from aiogram.filters import Command
+from kb import get_main_menu
 
 router = Router()
 
@@ -16,4 +17,4 @@ async def start_handler(message: Message):
 
     )
 
-    await message.answer(welcome_text)
+    await message.answer(welcome_text, reply_markup=get_main_menu())
