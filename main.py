@@ -5,6 +5,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from config import BOT_TOKEN
+from handlers import start
 
 async def main():
     bot = Bot(
@@ -12,6 +13,8 @@ async def main():
     )
 
     dp = Dispatcher()
+
+    dp.include_router(start)
 
     print("Бот запущен")
     try:
