@@ -18,7 +18,7 @@ class RAWGClient:
             try:
                 async with session.get(f"{self.base_url}/{endpoint}", params=params) as response:
                     if response.status == 200:
-                        return await response.join()
+                        return await response.json()
                     print(
                         f"HTTP ошибка: {response.status} - {response.reason}")
                     return
@@ -26,11 +26,11 @@ class RAWGClient:
                 print(f"ОШибка запроса к API", e)
                 return None
 
-        async def serach_games(self, query: str, limit: int = 5):
-            params = {
-                'search': query,
-                'page_size': limit,
-                'ordering': '-rating'
-            }
-            data = await self._make_request('games', params)
-            return data.get('results', []) if data else []
+    async def search_games(self, query: str, limit: int = 5):
+        params = {
+            'search': query,
+            'page_size': limit,
+            'ordering': '-rating'
+        }
+        data = await self._make_request('games', params)
+        return data.get('results', []) if data else []

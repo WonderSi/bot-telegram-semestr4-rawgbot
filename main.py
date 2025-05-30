@@ -5,7 +5,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from config import BOT_TOKEN
-from handlers import start
+from handlers import start, search
 
 async def main():
     bot = Bot(
@@ -15,12 +15,13 @@ async def main():
     dp = Dispatcher()
 
     dp.include_router(start)
+    dp.include_router(search)
 
     print("Бот запущен")
     try:
         await dp.start_polling(bot)
     finally:
-        bot.session.close()
+        await bot.session.close()
 
 if __name__ == '__main__':
     asyncio.run(main())
