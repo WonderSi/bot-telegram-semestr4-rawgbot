@@ -12,6 +12,8 @@ class UserDialogLogger():
     
     def get_user_logger(self, user_id: int):
         if user_id not in self.loggers:
+            os.makedirs(self.logs_dir, exist_ok=True)
+            
             logger = logging.getLogger(f"user_{user_id}")
             logger.setLevel(logging.INFO)
 
