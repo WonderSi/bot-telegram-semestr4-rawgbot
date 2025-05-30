@@ -48,7 +48,7 @@ async def help_commnad(message: Message):
 async def back_to_menu(callback: CallbackQuery):
     user_id = callback.from_user.id
 
-    dialog_logger.get_user_logger(user_id, callback.from_user.username, "Возврат в главное меню")
+    dialog_logger.log_user_logger(user_id, callback.from_user.username, "Возврат в главное меню")
 
     welcome_text = (
         "🎮 Главное меню GameBot\n\n"
