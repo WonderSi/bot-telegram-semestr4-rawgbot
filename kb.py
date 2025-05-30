@@ -14,3 +14,9 @@ def get_back_button():
         [InlineKeyboardButton(text="Главное меню", callback_data="back_to_menu")]
     ])
     return keyboard
+
+def get_game_detail(game_id: int):
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Подробнее", callback_data=f"game_details_{game_id}")]
+    ])
+    return keyboard
