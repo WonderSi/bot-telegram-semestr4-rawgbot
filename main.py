@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
@@ -6,6 +7,11 @@ from aiogram.types import Message
 
 from config import BOT_TOKEN
 from handlers import start, search
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 async def main():
     bot = Bot(
