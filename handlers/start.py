@@ -44,6 +44,25 @@ async def help_commnad(message: Message):
 
     await message.answer(help_text, reply_markup=get_back_button())
 
+@router.callback_query(F.data == 'help')
+async def help_callback(callback: CallbackQuery):
+    user_id = callback.from_user.id
+
+    dialog_logger.log_user_message(user_id, callback.from_user.username, "Нажал на кнопку 'Помощь'")
+
+    help_text = (
+        "Доступные команды:\n\n"
+        "/start - Запуск бота и главное меню\n"
+        "/help - Показать список команд\n"
+        "/search <название> - Поиск игры по названию\n"
+        "/popular - Показать популярные игры\n\n"
+        "Также вы можете использовать кнопки в меню для навигации"
+    )
+
+    dialog_logger.log_bot_response(user_id, help_text)
+
+    await callback.message.edit_text(help_text, reply_markup=get_back_button())
+
 @router.callback_query(F.data == 'back_to_menu')
 async def back_to_menu(callback: CallbackQuery):
     user_id = callback.from_user.id
@@ -52,6 +71,7 @@ async def back_to_menu(callback: CallbackQuery):
 
     welcome_text = (
         "🎮 Главное меню GameBot\n\n"
+        "Ваш персональный помощник и гид в безграничном мире видеоигр!\n\n"
         "Выберите действие:"
     )
 
