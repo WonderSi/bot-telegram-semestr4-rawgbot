@@ -19,7 +19,8 @@ class RAWGClient:
                 async with session.get(f"{self.base_url}/{endpoint}", params=params) as response:
                     if response.status == 200:
                         return await response.join()
-                    return None
+                    print(f"HTTP ошибка: {response.status} - {response.reason}")
+                    return 
             except Exception as e:
                 print(f"ОШибка запроса к API", e)
                 return None
