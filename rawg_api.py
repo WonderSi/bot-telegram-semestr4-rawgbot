@@ -25,3 +25,12 @@ class RAWGClient:
             except Exception as e:
                 print(f"ОШибка запроса к API", e)
                 return None
+
+        async def serach_games(self, query: str, limit: int = 5):
+            params = {
+                'search': query,
+                'page_size': limit,
+                'ordering': '-rating'
+            }
+            data = await self._make_request('games', params)
+            return data.get('results', []) if data else []
