@@ -28,6 +28,15 @@ async def search_commnad(message: Message, state: FSMContext):
         await message.answer(prompt_text, reply_markup=get_back_button())
         await state.set_state(SearchStates.waiting_for_game_name)
 
+@router.message(SearchStates.waiting_for_game_name)
+async def process_game_search(message: Message, state: FSMContext):
+    user_id = message.from_user.id
+    username = message.from_user.username or "Unknown"
+    game_name = message.text
+
+    await search_games(message, game_name)
+    await state.clear()
+    
 async def search_games(message: Message, game_name: str):
     user_id = message.from_user.id
     search_msg = await message.answer("Ищу игры...")
