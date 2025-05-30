@@ -8,3 +8,10 @@ def get_main_menu():
         [InlineKeyboardButton(text="ℹ️ Помощь", callback_data="help")]
     ])
     return keyboard
+
+def get_back_button():
+    keyboard = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Главное меню", callback_data="back_to_menu")]
+
+    ])
+    return keyboard
