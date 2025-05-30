@@ -1,5 +1,5 @@
 from aiogram import Router, F
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -24,9 +24,18 @@ async def search_commnad(message: Message, state: FSMContext):
         game_name = args[1]
         await search_games(message, game_name)
     else:
-        prompt_text = "Введите название игры для поиска"
+        prompt_text = " 🔍 Введите название игры для поиска."
         await message.answer(prompt_text, reply_markup=get_back_button())
         await state.set_state(SearchStates.waiting_for_game_name)
+
+@router.callback_query(F.data == "search_games")
+async def search_games_callback(callback: CallbackQuery, state: FSMContext):
+    user_id = callback.from_user.id
+
+    prompt_text = "🔍 Введите название игры для поиска."
+
+    await callback.message.edit_text(prompt_text, reply_markup=get_back_button())
+    await state.set_state(SearchStates.waiting_for_game_name)
 
 @router.message(SearchStates.waiting_for_game_name)
 async def process_game_search(message: Message, state: FSMContext):
@@ -36,19 +45,19 @@ async def process_game_search(message: Message, state: FSMContext):
 
     await search_games(message, game_name)
     await state.clear()
-    
+
 async def search_games(message: Message, game_name: str):
     user_id = message.from_user.id
-    search_msg = await message.answer("Ищу игры...")
+    search_msg = await message.answer("🔍 Ищу игры...")
     try:
         games = await rawg_client.search_games(game_name, limit=3)
         
         if not games:
-            no_results = f"Игры с название '{game_name}' не найдены"
+            no_results = f"Игры с название '{game_name}' не найдены."
 
             await search_msg.edit_text(no_results, reply_markup=get_back_button())
 
-        result_text = f"Найдено игр по запросу '{game_name}':\n\n"
+        result_text = f"🔍 Найдено игр по запросу '{game_name}':\n\n"
 
         for i, game in  enumerate(games, 1):
             rating = game.get('rating', 'N/A')
