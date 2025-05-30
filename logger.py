@@ -7,8 +7,7 @@ class UserDialogLogger():
         self.logs_dir = logs_dir
         self.loggers: Dict[int, logging.Logger] = {}
 
-        if os.path.exists(logs_dir):
-            os.makedirs(logs_dir)
+        os.makedirs(logs_dir, exist_ok=True)
     
     def get_user_logger(self, user_id: int):
         if user_id not in self.loggers:
@@ -39,7 +38,7 @@ class UserDialogLogger():
         logger = self.get_user_logger(user_id)
         logger.info(f"USER @{username}: {message}")
 
-    def log_bot_messag(self, user_id: int, response: str):
+    def log_bot_response(self, user_id: int, response: str):
         logger = self.get_user_logger(user_id)
         logger.info(f"BOT: {response}")
 

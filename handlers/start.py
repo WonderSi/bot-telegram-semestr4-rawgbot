@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
-from kb import get_main_menu
+from kb import get_main_menu, get_back_button
 from logger import dialog_logger
 
 router = Router()
@@ -20,9 +20,29 @@ async def start_handler(message: Message):
 
     )
 
-    dialog_logger.log_bot_messag(user_id, welcome_text)
+    dialog_logger.log_bot_response(user_id, welcome_text)
 
     await message.answer(welcome_text, reply_markup=get_main_menu())
+
+@router.message(Command("help"))
+async def help_commnad(message: Message):
+    user_id = message.from_user.id
+    username = message.from_user.username or "Unknown"
+
+    dialog_logger.log_user_message(user_id, username, "/help")
+
+    help_text = (
+        "Доступные команды:\n\n"
+        "/start - Запуск бота и главное меню\n"
+        "/help - Показать список команд\n"
+        "/search <название> - Поиск игры по названию\n"
+        "/popular - Показать популярные игры\n\n"
+        "Также вы можете использовать кнопки в меню для навигации"
+        )
+    
+    dialog_logger.log_bot_response(user_id, help_text)
+
+    await message.answer(help_text, reply_markup=get_back_button())
 
 @router.callback_query(F.data == 'back_to_menu')
 async def back_to_menu(callback: CallbackQuery):
@@ -35,6 +55,6 @@ async def back_to_menu(callback: CallbackQuery):
         "Выберите действие:"
     )
 
-    dialog_logger.get_bot_logger(user_id, welcome_text)
+    dialog_logger.log_bot_response(user_id, welcome_text)
 
     await callback.message.edit_text(welcome_text, reply_markup=get_main_menu())
