@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from kb import get_back_button
 from rawg_api import RAWGClient
 
 router = Router()
@@ -24,7 +25,7 @@ async def search_commnad(message: Message, state: FSMContext):
         await search_games(message, game_name)
     else:
         prompt_text = "Введите название игры для поиска"
-        await message.answer(prompt_text)
+        await message.answer(prompt_text, reply_markup=get_back_button())
         await state.set_state(SearchStates.waiting_for_game_name)
 
 async def search_games(message: Message, game_name: str):
@@ -34,7 +35,9 @@ async def search_games(message: Message, game_name: str):
         games = await rawg_client.search_games(game_name, limit=3)
         
         if not games:
-            pass
+            no_results = f"Игры с название '{game_name}' не найдены"
+
+            await search_msg.edit_text(no_results, reply_markup=get_back_button())
 
         result_text = f"Найдено игр по запросу '{game_name}':\n\n"
 
@@ -53,9 +56,9 @@ async def search_games(message: Message, game_name: str):
                 f"Платформы: {platforms_text}\n\n"
             )
 
-        print(result_text)
         await search_msg.edit_text(
             result_text,
+            reply_markup=get_back_button(),
             parse_mode='Markdown'
         )
     except Exception as e:

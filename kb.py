@@ -12,6 +12,5 @@ def get_main_menu():
 def get_back_button():
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="Главное меню", callback_data="back_to_menu")]
-
     ])
     return keyboard
