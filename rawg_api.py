@@ -34,3 +34,8 @@ class RAWGClient:
         }
         data = await self._make_request('games', params)
         return data.get('results', []) if data else []
+
+    async def get_game_details(self, game_id: int):
+        data = await self._make_request(f'games/{game_id}')
+        return data
+    
