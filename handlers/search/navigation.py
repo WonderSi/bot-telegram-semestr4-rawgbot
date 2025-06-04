@@ -22,6 +22,13 @@ async def next_result(callback: CallbackQuery):
         if index < max_results - 1:
             log_user(user_id, username, f"Запросил следующий результат поиска '{query}', индекс {index+1}")
             await callback.answer("Загружаю следующий результат...")
+            
+            # Удаляем предыдущее сообщение перед отправкой нового
+            try:
+                await callback.message.delete()
+            except Exception as e:
+                log_error(f"Не удалось удалить предыдущее сообщение для пользователя {user_id}: {str(e)}")
+            
             await search_games(callback.message, query, index + 1, search_type, original_user_id=user_id, original_username=username)
         else:
             log_info(f"Пользователь {user_id} достиг конца результатов поиска '{query}'")

@@ -1,5 +1,5 @@
 import aiohttp
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from config import RAWG_API_KEY, RAWG_BASE_URL
 
 class RAWGClient:
