@@ -21,6 +21,6 @@ async def search_command(message: Message):
         await search_games(message, game_name, 0, 'name', original_user_id=user_id, original_username=username)
     else:
         log_user(user_id, username, "Выполнил команду /search без параметров")
-        log_bot(user_id, prompt_text)
         prompt_text = "🔍 Выберите тип поиска:"
+        log_bot(user_id, prompt_text)
         await message.answer(prompt_text, reply_markup=get_search_type_menu())
