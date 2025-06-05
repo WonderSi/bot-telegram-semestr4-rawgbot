@@ -8,19 +8,20 @@ from config import BOT_TOKEN
 from handlers import start, search, popular, random, details
 from logger_config import log_info, log_error
 
+
 async def main():
     storage = MemoryStorage()
     bot = Bot(token=BOT_TOKEN)
     dp = Dispatcher(storage=storage)
-    
+
     dp.include_router(start)
     dp.include_router(search)
     dp.include_router(popular)
     dp.include_router(random)
     dp.include_router(details)
-    
+
     log_info("Обработчики зарегистрированы")
-    
+
     try:
         log_info("Бот запущен")
         log_info("Поллинг запущен")

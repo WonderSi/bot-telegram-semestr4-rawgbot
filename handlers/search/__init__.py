@@ -10,4 +10,4 @@ router.include_router(callbacks_router)
 router.include_router(states_router)
 router.include_router(navigation_router)
 
-__all__ = ['router'] 
+__all__ = ['router']

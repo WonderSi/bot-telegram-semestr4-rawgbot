@@ -13,4 +13,4 @@ __all__ = [
     'get_detail_random_menu',
     'get_game_menu',
     'get_detail_search_menu'
-] 
+]

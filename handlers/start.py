@@ -6,11 +6,12 @@ from logger_config import log_user, log_bot, log_error
 
 router = Router()
 
+
 @router.message(Command("start"))
 async def start_handler(message: Message):
     user_id = message.from_user.id
     username = message.from_user.username
-    
+
     log_user(user_id, username, "Выполнил команду /start")
 
     welcome_text = (
@@ -22,6 +23,7 @@ async def start_handler(message: Message):
     await message.answer(welcome_text, reply_markup=get_main_menu())
 
     log_bot(user_id, welcome_text)
+
 
 @router.message(Command("help"))
 async def help_commnad(message: Message):
@@ -38,11 +40,12 @@ async def help_commnad(message: Message):
         "/popular - Показать популярные игры\n"
         "/random - Показать случайную игру\n\n"
         "Также вы можете использовать кнопки в меню для навигации"
-        )
+    )
 
     await message.answer(help_text, reply_markup=get_back_button())
 
     log_bot(user_id, help_text)
+
 
 @router.callback_query(F.data == 'help')
 async def help_callback(callback: CallbackQuery):
@@ -59,11 +62,12 @@ async def help_callback(callback: CallbackQuery):
         "/popular - Показать популярные игры\n"
         "/random - Показать случайную игру\n\n"
         "Также вы можете использовать кнопки в меню для навигации"
-        )
+    )
 
     await callback.message.edit_text(help_text, reply_markup=get_back_button())
 
     log_bot(user_id, help_text)
+
 
 @router.callback_query(F.data == 'back_to_menu')
 async def back_to_menu(callback: CallbackQuery):
@@ -81,15 +85,16 @@ async def back_to_menu(callback: CallbackQuery):
     try:
         await callback.message.delete()
         await callback.message.answer(
-            welcome_text, 
+            welcome_text,
             reply_markup=get_main_menu()
         )
 
         log_bot(user_id, welcome_text)
-        
+
     except Exception as e:
-        log_error(f"Ошибка при возврате в главное меню для пользователя {user_id}: {str(e)}")
+        log_error(
+            f"Ошибка при возврате в главное меню для пользователя {user_id}: {str(e)}")
         await callback.message.answer(
-            welcome_text, 
+            welcome_text,
             reply_markup=get_main_menu()
         )
