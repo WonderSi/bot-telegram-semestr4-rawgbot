@@ -46,7 +46,7 @@ async def show_popular_games(message, original_user_id=None, username=None):
             if username:
                 log_user(user_id, username, "Запросил популярные игры")
             
-        games = await rawg_client.get_popular_games(limit=3, user_id=user_id)
+        games = await rawg_client.get_popular_games(limit=3)
         
         if not games:
             error_msg = "😔 Не удалось загрузить популярные игры. Попробуйте позже."

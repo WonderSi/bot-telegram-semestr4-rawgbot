@@ -24,20 +24,24 @@ class RAWGClient:
             'gambling'
         ]
 
-    async def _make_request(self, endpoint: str, params: Dict = None, user_id: Optional[int] = None):
+    async def _make_request(self, endpoint: str, params: Dict = None):
         if params is None:
             params = {}
         params['key'] = self.api_key
         
+        # Теги
         if 'exclude_tags' not in params:
             params['exclude_tags'] = ','.join(self.excluded_tags)
             
+        # DLC
         if 'exclude_additions' not in params and endpoint == 'games':
             params['exclude_additions'] = 'true'
             
+        # Возраст
         if 'esrb' not in params and endpoint == 'games':
             params['esrb'] = '1,2,3'
 
+        # Запрос
         url = f"{self.base_url}/{endpoint}"
         async with aiohttp.ClientSession() as session:
             async with session.get(url, params=params) as response:

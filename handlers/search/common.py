@@ -16,7 +16,7 @@ async def search_games(message: Message, query: str, index: int = 0, search_type
         log_info(f"Навигация по результатам поиска для пользователя {user_id}: '{query}', индекс: {index}")
     
     try:
-        games = await rawg_client.search_games(query, limit=10, search_type=search_type, user_id=user_id)
+        games = await rawg_client.search_games(query, limit=10, search_type=search_type)
         
         if not games or index >= len(games):
             if index == 0:
