@@ -24,7 +24,6 @@ system_logger.addHandler(system_file_log)
 user_loggers = {}
 
 def get_user_logger(user_id):
-    """Получает или создает логгер для конкретного пользователя"""
     if user_id not in user_loggers:
         user_logger = logging.getLogger(f'user_{user_id}')
         user_logger.setLevel(logging.INFO)
@@ -44,27 +43,22 @@ def get_user_logger(user_id):
     return user_loggers[user_id]
 
 def log_user(user_id, username, message):
-    """Сообщение от пользователя"""
     user_logger = get_user_logger(user_id)
     user_logger.info(f"👤 Пользователь: {message}")
     system_logger.info(f"👤 Пользователь {user_id} ({username}): {message}")
 
 def log_bot(user_id, message):
-    """Ответ бота"""
     user_logger = get_user_logger(user_id)
     user_logger.info(f"🤖 Бот: {message}")
     system_logger.info(f"🤖 Бот → {user_id}: {message}")
 
 def log_info(message):
-    """Системная информация"""
     system_logger.info(f"ℹ️ {message}")
 
 def log_error(message):
-    """Ошибка"""
     system_logger.error(f"❌ {message}")
 
 def log_user_action(user_id, action):
-    """Действие пользователя (команда, кнопка и т.д.)"""
     user_logger = get_user_logger(user_id)
     user_logger.info(f"🔄 Действие: {action}")
     system_logger.info(f"🔄 Пользователь {user_id} выполнил: {action}")
