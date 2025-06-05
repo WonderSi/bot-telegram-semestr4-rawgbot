@@ -36,8 +36,6 @@ def get_user_logger(user_id):
         user_file_log.setFormatter(logging.Formatter(simple_format))
         user_logger.addHandler(user_file_log)
         
-        user_logger.propagate = False
-        
         user_loggers[user_id] = user_logger
     
     return user_loggers[user_id]
